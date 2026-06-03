@@ -232,14 +232,3 @@ Triggers model training pipeline
 * Experiment tracking with MLflow + DagsHub
 * Real-world FastAPI deployment pattern
 
----
-
-## 📌 Future Improvements
-
-* Add real CD (deployment to cloud)
-* Kubernetes deployment
-* Model monitoring (drift detection)
-* Feature store (Feast)
-* Airflow/Dagster orchestration
-* Model versioning & rollback system
-
