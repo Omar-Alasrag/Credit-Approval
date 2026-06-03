@@ -55,4 +55,4 @@ jobs:
 
       - name: test the app
         run: |
-          docker compose exec myapp uv run pytest
+          docker compose exec myapp python -m pytest
