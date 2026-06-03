@@ -11,7 +11,6 @@ services:
       - MLFLOW_TRACKING_USERNAME=${MLFLOW_TRACKING_USERNAME}
       - MLFLOW_TRACKING_PASSWORD=${MLFLOW_TRACKING_PASSWORD}
       - DAGSHUB_USER_TOKEN=${DAGSHUB_USER_TOKEN}
-
     volumes:
       - artifacts_img:/app/artifacts
 

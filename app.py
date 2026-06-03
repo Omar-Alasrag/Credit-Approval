@@ -50,7 +50,7 @@ async def train():
 async def predict_page(request: Request):
 
     return templates.TemplateResponse(
-        "index.html", context={"request": request, "prediction": None}
+        request, "index.html", context={"prediction": None}
     )
 
 
@@ -69,7 +69,7 @@ async def predict(request: Request, data: DataSchema = Form()):
         if len(all_dirs) == 0:
             warning = "train the model first"
             return templates.TemplateResponse(
-                "index.html", context={"request": request, "warning": warning, "prediction": None}
+                request, "index.html", context={"warning": warning, "prediction": None}
             )
         last_dir = sorted(all_dirs, key=lambda x: x.name)[-1].name
         main_config = MainConfig(last_dir)
@@ -90,10 +90,10 @@ async def predict(request: Request, data: DataSchema = Form()):
             f"result is: {prediction}, prediction_probability: {prediction_probability}"
         )
         return templates.TemplateResponse(
-            "index.html", context={"request": request, "prediction": prediction}
+            request, "index.html", context={"prediction": prediction}
         )
     except Exception as ex:
         logger.exception("prediction failed")
         return templates.TemplateResponse(
-            "index.html", context={"request": request, "warring": str(ex)}
+            request, "index.html", context={"warring": str(ex)}
         )

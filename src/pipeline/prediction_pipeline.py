@@ -15,7 +15,7 @@ class PredictionPipeline:
             logger.info("start prediction process")
             tr_data = self.preprocessor.transform(data)
 
-            if hasattr(self.model, "predict_proba"):
+            if hasattr(self.model, "c"):
                 probabilities = self.model.predict_proba(tr_data)
                 prediction = np.argmax(probabilities, axis=1)
                 prediction_probability = np.max(probabilities, axis=1)
