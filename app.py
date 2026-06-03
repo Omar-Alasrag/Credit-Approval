@@ -69,7 +69,7 @@ async def predict(request: Request, data: DataSchema = Form()):
         if len(all_dirs) == 0:
             warning = "train the model first"
             return templates.TemplateResponse(
-                "index.html", context={"request": request, "warning": warning}
+                "index.html", context={"request": request, "warning": warning, "prediction": None}
             )
         last_dir = sorted(all_dirs, key=lambda x: x.name)[-1].name
         main_config = MainConfig(last_dir)
