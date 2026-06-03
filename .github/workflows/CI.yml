@@ -34,7 +34,7 @@ jobs:
         run: uv sync --frozen --no-install-project
 
       - name: run python test
-        run: uv run pytest
+        run: uv run python -m pytest
 
   # ******** test in docker container second *******
 
