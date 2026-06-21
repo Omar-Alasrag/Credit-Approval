@@ -77,13 +77,15 @@ jobs:
           role-to-assume: arn:aws:iam::285515884731:role/credit-approval-ecr
 
       - name: login to aws ecr
-        run: aws-actions/amazon-ecr-login@v2
+        uses: aws-actions/amazon-ecr-login@v2
+
 
       - name: Docker Setup Buildx
         uses: docker/setup-buildx-action@v4.1.0
 
-      - name: build docker image and push to ecr
-        uses: GlueOps/github-actions-build-push-containers@v0.3.7
-
-
-
+      - name: Build and push to ECR
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          tags: 285ش515884731.dkr.ecr.eu-north-1.amazonaws.com/credit-approval/credit-approval/app:latest
