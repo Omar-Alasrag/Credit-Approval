@@ -88,4 +88,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: 285515884731.dkr.ecr.eu-north-1.amazonaws.com/credit-approval/app:latest
+          tags: 285515884731.dkr.ecr.eu-north-1.amazonaws.com/credit-approval:${{ github.sha }}
