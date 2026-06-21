@@ -72,7 +72,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6.1.0
         with:
-          audience: sts.amazonaws.com.cn
+          audience: sts.amazonaws.com
           aws-region: eu-north-1
           role-to-assume: arn:aws:iam::285515884731:role/credit-approval-ecr
 
@@ -87,4 +87,3 @@ jobs:
 
 
 
-        
