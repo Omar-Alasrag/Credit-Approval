@@ -33,6 +33,11 @@ async def welcome(request: Request):
     return RedirectResponse("/predict")
 
 
+@app.get("/health")
+async def welcome():
+    return {"message": "working"}
+
+
 @app.get("/train")  # it should have been "POST" but i added this for simplicity
 @app.post("/train")
 async def train():
