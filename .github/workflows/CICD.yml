@@ -57,3 +57,33 @@ jobs:
       - name: test the app
         run: |
           docker compose exec myapp uv run python -m pytest
+
+  build-and-deploy-on-aws:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    needs: integrate-and-test-docker-app
+    steps:
+      - name: load the code
+        uses: actions/checkout@v6
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v6.1.0
+        with:
+          audience: sts.amazonaws.com.cn
+          aws-region: eu-north-1
+          role-to-assume: arn:aws:iam::285515884731:role/credit-approval-ecr
+
+      - name: login to aws ecr
+        run: aws-actions/amazon-ecr-login@v2
+
+      - name: Docker Setup Buildx
+        uses: docker/setup-buildx-action@v4.1.0
+
+      - name: build docker image and push to ecr
+        uses: GlueOps/github-actions-build-push-containers@v0.3.7
+
+
+        

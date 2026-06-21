@@ -1,17 +1,12 @@
 FROM astral/uv:python3.13-trixie-slim
 
-
 WORKDIR /app
-
 
 COPY pyproject.toml uv.lock  ./
 
 RUN uv sync --frozen --no-install-project
 
-
 COPY . .
-
-RUN uv sync --frozen
 
 EXPOSE 8000
 

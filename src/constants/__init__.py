@@ -44,3 +44,7 @@ DATA_TRANSFORMATION_UNNEEDED_COLS = ["ZipCode", "DriversLicense", "Gender", "Eth
 
 MODEL_TRAINING_MAIN_DIR = "train"
 MODEL_TRAINING_MODEL_FILE = "best_model.pkl"
+
+
+MODEL_TRAINING_AWS_BUCKET_NAME = "credit-approval-285515884731-eu-north-1-an"
+

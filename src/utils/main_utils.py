@@ -3,6 +3,7 @@ from pathlib import Path
 from src.logging.logger import logging
 import joblib
 import numpy as np
+import boto3
 
 logger = logging.getLogger(__name__)
 
@@ -63,10 +64,20 @@ def load_object(path: Path):
         raise ex
 
 
-def save_numpy_array(self, path: str, array: np.ndarray):
+def save_numpy_array(path: str, array: np.ndarray):
     try:
         np.save(path, array)
         logger.info(f"saved numpy array at:{path}")
     except Exception as ex:
         logger.exception("failed to write the numpy")
+        raise ex
+
+
+def push_file_to_s3(file_name, bucket, key):
+    try:
+        client = boto3.client("s3")
+        client.upload_file(file_name, Bucket=bucket, Key=key)
+        logger.info(f"the file saved to s3 successfully")
+    except Exception as ex:
+        logger.exception("failed to save file to s3 successfully")
         raise ex

@@ -6,6 +6,7 @@ from src.entity.data_schema import data_schema_validator
 
 class MainConfig:
     def __init__(self, ts):
+        self.ts = ts
         self.artifacts_dir = Path(const.PIPELINE_ARTIFACT_DIR) / ts
         self.mongo_conn_url = const.MONGO_CONNECTION_URL
         self.mongo_db_name = const.MONGO_DB_NAME
@@ -75,11 +76,13 @@ class TransformationConfig:
 
 class ModelTrainConfig:
     def __init__(self, main_config: MainConfig):
+        self.ts = main_config.ts
         self.artifact_dir = Path(main_config.artifacts_dir)
         self.model_training_main_dir = self.artifact_dir / const.MODEL_TRAINING_MAIN_DIR
         self.model_training_model_path = (
             self.model_training_main_dir / const.MODEL_TRAINING_MODEL_FILE
         )
+        self.model_training_aws_bucket_name = const.MODEL_TRAINING_AWS_BUCKET_NAME
 
 
 class ModelPredictionConfig:

@@ -30,7 +30,6 @@ templates = Jinja2Templates("templates")
 
 @app.get("/")
 async def welcome(request: Request):
-
     return RedirectResponse("/predict")
 
 

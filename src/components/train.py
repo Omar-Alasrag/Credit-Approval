@@ -1,6 +1,6 @@
 from src.entity.config_entity import MainConfig, ModelTrainConfig
 from src.entity.artifacts_entity import DataTransformationArtifact
-from src.utils.main_utils import read_data, create_dirs, save_object
+from src.utils.main_utils import read_data, create_dirs, save_object, push_file_to_s3
 from pathlib import Path
 from src.logging.logger import logging
 from sklearn.tree import DecisionTreeClassifier
@@ -26,7 +26,11 @@ class ModelTraining:
         model_train_config: ModelTrainConfig,
         data_transformation_artifact: DataTransformationArtifact,
     ):
+        self.ts = model_train_config.ts
         self.model_training_model_path = model_train_config.model_training_model_path
+        self.model_training_aws_bucket_name = (
+            model_train_config.model_training_aws_bucket_name
+        )
 
         self.data_transformation_file = Path(
             data_transformation_artifact.data_transformation_file
@@ -42,6 +46,9 @@ class ModelTraining:
             "SVC": SVC,
             "MLPClassifier": MLPClassifier,
         }
+        self.MODEL_TRAINING_AWS_BUCKET_NAME = (
+            model_train_config.model_training_aws_bucket_name
+        )
 
     def choose_algorithms_with_params(self, trial: opt.Trial):
 
@@ -148,6 +155,16 @@ class ModelTraining:
         create_dirs(self.model_training_model_path)
         save_object(self.model_training_model_path, model)
 
+
+    def save_model_to_s3(self):
+        key = f"model/{self.model_training_model_path.name}"
+
+        push_file_to_s3(
+            file_name=str(self.model_training_model_path),
+            bucket=self.model_training_aws_bucket_name,
+            key=key, 
+        )
+
     def initiate_model_training(self):
 
         logger.info("initiate model training")
@@ -165,18 +182,22 @@ class ModelTraining:
             model = self.algorithms[best_algorithm](**best_params)
             model.fit(X_train, y_train)
             self.save_and_register_the_model(model)
+        self.save_model_to_s3()
         logger.info("model training has ended")
 
 
 if __name__ == "__main__":
+    from datetime import datetime
+
     try:
         logger.info("start the model_train process")
-        model_train_config = ModelTrainConfig(main_config=MainConfig())
+        ts = "2026-06-03_21-38-14"
+        model_train_config = ModelTrainConfig(main_config=MainConfig(ts))
         model_train = ModelTraining(
             model_train_config,
             DataTransformationArtifact(
-                r"artifacts\tranformation\credit_approval_transformed.pkl",
-                r"artifacts\tranformation\preprocessor.pkl",
+                r"artifacts\2026-06-03_21-38-14\tranformation\credit_approval_transformed.pkl",
+                r"artifacts\2026-06-03_21-38-14\tranformation\preprocessor.pkl",
             ),
         )
         model_train.initiate_model_training()

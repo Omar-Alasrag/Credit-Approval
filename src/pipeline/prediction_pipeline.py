@@ -23,7 +23,7 @@ class PredictionPipeline:
                 logger.info(f"prediction is {prediction}")
                 logger.info(f"probability is {prediction_probability}")
 
-            else:
+            else: 
                 prediction = self.model.predict(tr_data)
                 prediction_probability = np.array(["unknown"] * len(prediction))
                 logger.info("predict_proba is not available, using direct prediction")
