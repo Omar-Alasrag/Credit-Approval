@@ -1,4 +1,4 @@
-name: CI
+name: CICD
 
 on:
   push:
@@ -88,4 +88,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: 285ش515884731.dkr.ecr.eu-north-1.amazonaws.com/credit-approval/credit-approval/app:latest
+          tags: 285515884731.dkr.ecr.eu-north-1.amazonaws.com/credit-approval/credit-approval/app:latest
