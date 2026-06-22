@@ -30,8 +30,6 @@ class DataSchema(BaseModel):
     Debt: float
     Married: int
     BankCustomer: int
-    Industry: str
-    PriorDefault: int
     YearsEmployed: float
     Employed: int
     CreditScore: int

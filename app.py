@@ -53,9 +53,7 @@ async def train():
 @app.get("/predict", response_class=HTMLResponse)
 async def predict_page(request: Request):
 
-    return templates.TemplateResponse(
-        request, "index.html", context={"prediction": None}
-    )
+    return templates.TemplateResponse(request, "index.html")
 
 
 @app.post("/predict", response_class=HTMLResponse)
@@ -79,9 +77,16 @@ async def predict(request: Request, data: DataSchema = Form()):
         main_config = MainConfig(last_dir)
         model_prediction_config = ModelPredictionConfig(main_config)
 
+        if not model_prediction_config.data_transformation_preprocessor_file.exists():
+            warning = "train the model first"
+            return templates.TemplateResponse(
+                request, "index.html", context={"prediction": None, "warning": warning}
+            )
+
         preprocessor: ColumnTransformer = load_object(
             model_prediction_config.data_transformation_preprocessor_file
         )
+
         model = load_object(model_prediction_config.model_training_model_path)
 
         prediction_pipeline = PredictionPipeline(preprocessor, model)
@@ -93,11 +98,10 @@ async def predict(request: Request, data: DataSchema = Form()):
         logger.info(
             f"result is: {prediction}, prediction_probability: {prediction_probability}"
         )
+
         return templates.TemplateResponse(
             request, "index.html", context={"prediction": prediction}
         )
     except Exception as ex:
         logger.exception("prediction failed")
-        return templates.TemplateResponse(
-            request, "index.html", context={"warring": str(ex)}
-        )
+        return templates.TemplateResponse(request, "index.html")

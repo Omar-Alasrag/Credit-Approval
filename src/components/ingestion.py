@@ -47,7 +47,7 @@ class DataIngestion:
 
         db = self.client[self.db_name]
         collection_name = db[self.collection_name]
-        df = pd.DataFrame(list(collection_name.find({}, {"_id": 0}).limit(10000)))
+        df = pd.DataFrame(list(collection_name.find({}, {"_id": False})))
 
         logger.info("mongo DB data was read successfully")
         return df

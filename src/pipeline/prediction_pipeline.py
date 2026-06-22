@@ -15,17 +15,17 @@ class PredictionPipeline:
             logger.info("start prediction process")
             tr_data = self.preprocessor.transform(data)
 
-            if hasattr(self.model, "c"):
+            if hasattr(self.model, "predict_proba"):
                 probabilities = self.model.predict_proba(tr_data)
                 prediction = np.argmax(probabilities, axis=1)
                 prediction_probability = np.max(probabilities, axis=1)
-                logger.info("predict_proba is not available")
+                logger.info(f"probabilities are {probabilities}")
                 logger.info(f"prediction is {prediction}")
-                logger.info(f"probability is {prediction_probability}")
 
             else: 
                 prediction = self.model.predict(tr_data)
                 prediction_probability = np.array(["unknown"] * len(prediction))
+                logger.info(f"prediction is {prediction}")
                 logger.info("predict_proba is not available, using direct prediction")
             logger.info("end prediction process successfully")
             return prediction, prediction_probability

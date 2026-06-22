@@ -35,11 +35,10 @@ DATA_TRANSFORMATION_TARGET_COL = "Approved"
 DATA_TRANSFORMATION_CAT_COLS = [
     "Married",
     "BankCustomer",
-    "Industry",
-    "PriorDefault",
     "Citizen",
 ]
-DATA_TRANSFORMATION_UNNEEDED_COLS = ["ZipCode", "DriversLicense", "Gender", "Ethnicity"]
+
+DATA_TRANSFORMATION_UNNEEDED_COLS = ["ZipCode", "DriversLicense", "Gender", "Ethnicity","PriorDefault", "Industry"]
 
 
 MODEL_TRAINING_MAIN_DIR = "train"
